@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>LocalControl.qml</file>
+        <file>MapView.qml</file>
+        <file>Map.qml</file>
+        <file>VideoStreamView.qml</file>
+    </qresource>
+</RCC>
