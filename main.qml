@@ -10,6 +10,46 @@ ApplicationWindow {
     height: 720
     title: qsTr("Curridrone")
     property string thinkingHead_IP: '192.168.43.131'
+    property real ratioVideo: 16/9
+    header: ToolBar {
+        RowLayout {
+            anchors.fill: parent
+            Switch {
+                id: webSocketSwitch
+                text: qsTr("WebSocket Off")
+                Layout.alignment: Qt.AlignTop
+
+                onCheckedChanged: {
+                    if(webSocketSwitch.checked){
+                        webSocketSwitch.text = qsTr("WebSocket On")
+                        webSocket.active = true
+                    } else {
+                        webSocketSwitch.text = qsTr("WebSocket Off")
+                        webSocket.active = false
+                    }
+                }
+            }
+            ToolButton {
+                text: qsTr("⋮")
+                onClicked: menu.open()
+                anchors.right: parent.right
+            }
+        }
+        Menu {
+            id: menu
+
+
+            MenuItem {
+                text: "New..."
+            }
+            MenuItem {
+                text: "Open..."
+            }
+            MenuItem {
+                text: "Save"
+            }
+        }
+    }
 
     WebSocket{
         id: webSocket
@@ -37,50 +77,40 @@ ApplicationWindow {
     RowLayout {
         anchors.fill: parent
         ColumnLayout {
-            implicitWidth: parent.width/3
-            Layout.maximumHeight: 1280
-            Layout.minimumHeight: 500
-            Layout.maximumWidth: 500
-            Layout.minimumWidth: 200
+            height: parent.height
             Layout.fillHeight: true
             Layout.fillWidth: false
-            Switch {
-                id: webSocketSwitch
-                text: qsTr("WebSocket Off")
-                Layout.alignment: Qt.AlignTop
-
-                onCheckedChanged: {
-                    if(webSocketSwitch.checked){
-                        webSocketSwitch.text = qsTr("WebSocket On")
-                        webSocket.active = true
-                    } else {
-                        webSocketSwitch.text = qsTr("WebSocket Off")
-                        webSocket.active = false
-                    }
-                }
+            implicitWidth: parent.width/2
+            Layout.maximumWidth: 900
+            Layout.minimumWidth: 200
+            VideoStreamView {
+                id: videoStream
+                ip: thinkingHead_IP
+                implicitWidth: parent.width
+                implicitHeight: implicitWidth/ratioVideo
+                Layout.maximumHeight: 500
+                Layout.fillWidth: true
+                Layout.fillHeight: false
             }
             spacing: 3
             LocalControl {
+                Layout.maximumHeight: 1280
+                Layout.minimumHeight: 200
+                Layout.fillHeight: true
+                Layout.fillWidth: true
                 id: pageLocalControl
                 Layout.alignment: Qt.AlignBottom
                 onControlValuesChanged: {
                     webSocket.sendTextMessage(createDataMessage(power, direction))
                 }
             }
+
         }
         spacing: 10
-        ColumnLayout {
-            height: parent.height
-            VideoStreamView {
-                ip: thinkingHead_IP
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-            }
-            spacing: 3
-            MapView {
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-            }
+        MapView {
+            Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+            Layout.fillWidth: true
+            Layout.fillHeight: true
         }
     }
 

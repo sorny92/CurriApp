@@ -4,7 +4,6 @@ import QtQuick.Layouts 1.0
 
 Item {
     id: root
-    anchors.fill: parent
     signal controlValuesChanged(real power, real direction)
     property string heading: "0"
     property string speed: "0"
@@ -13,8 +12,7 @@ Item {
 
     Slider {
         id: sliderPower
-        anchors.top: parent.top
-        anchors.topMargin: 235
+        height: parent.height*0.8
         anchors.left: parent.left
         anchors.rightMargin: 10
         anchors.bottom: sliderDirection.top
@@ -29,7 +27,7 @@ Item {
 
     Slider {
         id: sliderDirection
-        width: parent.width - parent.width/10
+        width: parent.width*0.9
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.bottom: parent.bottom
         stepSize: 1

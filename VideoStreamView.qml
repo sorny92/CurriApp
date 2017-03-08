@@ -7,13 +7,14 @@ Rectangle {
     property string ip
     color: 'red';
     VlcPlayer {
+
         id: vlcPlayer;
         mrl: 'tcp/h264://' + ip +':8000/';
         onMediaPlayerEncounteredError: console.log("WHAT")
     }
     VideoOutput {
+        anchors.fill: parent
         source: vlcPlayer;
-        height: parent.height
         anchors.centerIn: parent.Center
     }
 }
