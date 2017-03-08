@@ -6,13 +6,14 @@ import QtWebSockets 1.0
 
 ApplicationWindow {
     visible: true
-    width: 640
-    height: 480
+    width: 1280
+    height: 720
     title: qsTr("Curridrone")
+    property string thinkingHead_IP: '192.168.43.131'
 
     WebSocket{
         id: webSocket
-        url: 'ws://127.0.1.1:8888/ws'
+        url: 'ws://'+ thinkingHead_IP + ':8888/ws'
         active: false
         onStatusChanged: {
             if (webSocket.status == WebSocket.Error) {
@@ -36,15 +37,18 @@ ApplicationWindow {
     RowLayout {
         anchors.fill: parent
         ColumnLayout {
-            width: parent.width/2
-            height: parent.height
+            implicitWidth: parent.width/3
+            Layout.maximumHeight: 1280
+            Layout.minimumHeight: 500
+            Layout.maximumWidth: 500
+            Layout.minimumWidth: 200
+            Layout.fillHeight: true
+            Layout.fillWidth: false
             Switch {
-                Layout.preferredWidth: 400
                 id: webSocketSwitch
                 text: qsTr("WebSocket Off")
-                Layout.fillWidth: false
-                Layout.fillHeight: false
                 Layout.alignment: Qt.AlignTop
+
                 onCheckedChanged: {
                     if(webSocketSwitch.checked){
                         webSocketSwitch.text = qsTr("WebSocket On")
@@ -59,8 +63,6 @@ ApplicationWindow {
             LocalControl {
                 id: pageLocalControl
                 Layout.alignment: Qt.AlignBottom
-                Layout.preferredWidth: 400
-                Layout.fillHeight: true
                 onControlValuesChanged: {
                     webSocket.sendTextMessage(createDataMessage(power, direction))
                 }
@@ -68,9 +70,9 @@ ApplicationWindow {
         }
         spacing: 10
         ColumnLayout {
-            width: parent.width/2
             height: parent.height
             VideoStreamView {
+                ip: thinkingHead_IP
                 Layout.fillWidth: true
                 Layout.fillHeight: true
             }

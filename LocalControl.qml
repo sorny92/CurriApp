@@ -4,11 +4,18 @@ import QtQuick.Layouts 1.0
 
 Item {
     id: root
+    anchors.fill: parent
     signal controlValuesChanged(real power, real direction)
+    property string heading: "0"
+    property string speed: "0"
+    property string batterylevel: "100"
+    property string satellites: "0"
 
     Slider {
         id: sliderPower
-        anchors.right: parent.right
+        anchors.top: parent.top
+        anchors.topMargin: 235
+        anchors.left: parent.left
         anchors.rightMargin: 10
         anchors.bottom: sliderDirection.top
         anchors.bottomMargin: 5
@@ -39,6 +46,34 @@ Item {
         anchors.bottom: sliderDirection.top
         anchors.horizontalCenter: parent.horizontalCenter
         text: qsTr("Center")
+    }
+
+    ColumnLayout {
+        anchors.left: sliderPower.right
+        anchors.bottom: centerButton.top
+        id: columnLayout
+        width: 100
+        height: 100
+        Text {
+            id: headingText
+            text: qsTr("Heading: ") + heading
+            font.pixelSize: 12
+        }
+        Text {
+            id: speedText
+            text: qsTr("Speed: ") + speed
+            font.pixelSize: 12
+        }
+        Text {
+            id: batteryText
+            text: qsTr("Battery Level: ") + batterylevel
+            font.pixelSize: 12
+        }
+        Text {
+            id: satelliteText
+            text: qsTr("Satellites: ") + satellites
+            font.pixelSize: 12
+        }
     }
 
     function valueChanged(power, direction) {
