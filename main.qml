@@ -9,7 +9,7 @@ ApplicationWindow {
     width: 1280
     height: 720
     title: qsTr("Curridrone")
-    property string thinkingHead_IP: '192.168.43.131'
+    property string thinkingHead_IP: '192.168.1.35'
     property real ratioVideo: 16/9
     header: ToolBar {
         RowLayout {

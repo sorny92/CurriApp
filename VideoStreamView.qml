@@ -7,14 +7,33 @@ Rectangle {
     property string ip
     color: 'red';
     VlcPlayer {
-
         id: vlcPlayer;
         mrl: 'tcp/h264://' + ip +':8000/';
-        onMediaPlayerEncounteredError: console.log("WHAT")
+        onMediaPlayerStopped: console.log('stopped')
+        onPlayingChanged: console.log('playing failed')
+        onStateChanged: {
+            console.log('state: '+ vlcPlayer.state)
+            if(state == 7) vlcPlayer.mrl = 'tcp/h264://' + ip +':8000/'
+        }
+        onMediaPlayerOpening: {
+            console.log('Abrieeendoooor')
+        }
+        onMediaPlayerPlaying: {
+            console.log('playing')
+        }
+        Component.onDestruction: vlcPlayer.stop()
     }
-    VideoOutput {
+    VlcVideoSurface {
+        id: videoOut
         anchors.fill: parent
         source: vlcPlayer;
         anchors.centerIn: parent.Center
+    }
+    MouseArea{
+        anchors.fill: parent
+        z:2
+        onClicked: {
+            vlcPlayer.video.saturation = 100
+        }
     }
 }
