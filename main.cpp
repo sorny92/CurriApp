@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
     config.enableLogoFilter( true );
     config.enableDebug( false );
 
-    //QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QGuiApplication app(argc, argv);
 
     QQmlApplicationEngine engine;

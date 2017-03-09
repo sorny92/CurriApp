@@ -9,17 +9,8 @@ Rectangle {
     VlcPlayer {
         id: vlcPlayer;
         mrl: 'tcp/h264://' + ip +':8000/';
-        onMediaPlayerStopped: console.log('stopped')
-        onPlayingChanged: console.log('playing failed')
         onStateChanged: {
-            console.log('state: '+ vlcPlayer.state)
-            if(state == 7) vlcPlayer.mrl = 'tcp/h264://' + ip +':8000/'
-        }
-        onMediaPlayerOpening: {
-            console.log('Abrieeendoooor')
-        }
-        onMediaPlayerPlaying: {
-            console.log('playing')
+            //if(state == VlcPlayer.Error) vlcPlayer.mrl = 'tcp/h264://' + ip +':8000/'
         }
         Component.onDestruction: vlcPlayer.stop()
     }

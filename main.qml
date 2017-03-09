@@ -35,20 +35,6 @@ ApplicationWindow {
                 anchors.right: parent.right
             }
         }
-        Menu {
-            id: menu
-
-
-            MenuItem {
-                text: "New..."
-            }
-            MenuItem {
-                text: "Open..."
-            }
-            MenuItem {
-                text: "Save"
-            }
-        }
     }
 
     WebSocket{
@@ -59,11 +45,6 @@ ApplicationWindow {
             if (webSocket.status == WebSocket.Error) {
                 console.log("Error: " + webSocket.errorString)
                 webSocketSwitch.checked = false
-            } else if (webSocket.status == WebSocket.Open) {
-                webSocket.sendTextMessage("Curridrone Connected")
-                console.log("Curridrone connected")
-            } else if (webSocket.status == WebSocket.Closed) {
-                console.log("\nSecure socket closed")
             }
         }
         onActiveChanged: {
