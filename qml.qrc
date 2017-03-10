@@ -5,5 +5,9 @@
         <file>MapView.qml</file>
         <file>Map.qml</file>
         <file>VideoStreamView.qml</file>
+        <file>Drone.qml</file>
+        <file>resources/fisherman.png</file>
+        <file>resources/boat.png</file>
+        <file>You.qml</file>
     </qresource>
 </RCC>

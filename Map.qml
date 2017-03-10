@@ -5,47 +5,46 @@ import QtPositioning 5.4
 
 Map {
     property var userPosition
-    property var boatPosition
+    property var droneData
+
     function updatePosition() {
         positionSrc.update();
     }
+    id: map
+    plugin: myPlugin
+    anchors.fill: parent
+    center: userPosition
+    zoomLevel:15
 
-    function updateBoatPosition() {
-        positionSrc.update();
+    You {
+        position: userPosition
     }
-    MapCircle {
-        center {
-            latitude: userPosition.latitude
-            longitude: userPosition.longitude
-        }
-        radius: 5
-        color: "red"
-        smooth: true
+
+    Drone {
+        position: droneData.position
+        heading: droneData.heading
+        state: droneData.armed
     }
+
     PositionSource{
         id: positionSrc
         updateInterval: 5000
         active: true
         onPositionChanged: {
             userPosition = positionSrc.position.coordinate;
-            map.center=userPosition;
         }
     }
 
-    id: map
-    anchors.fill: parent
-    plugin: Plugin {
+    Plugin {
         id: myPlugin
         name: "mapbox"
         PluginParameter { name: "mapbox.map_id"; value: "mapbox.satellite" }
         PluginParameter { name: "mapbox.access_token"; value: "pk.eyJ1IjoiZXNvZmFiaWFuIiwiYSI6ImNpZzNraXRoNTF4OW10d20zYWpqdjc2aDgifQ.rnTqzvyW1wknv9ZZEvWDhQ" }
         PluginParameter { name: "mapbox.options"; value: "zoomwheel,zoompan,geocoder,share" }
     }
+
     Behavior on center {CoordinateAnimation{duration: 600; easing.type: {Easing.InOutQuad}}}
     Behavior on zoomLevel {NumberAnimation{duration: 600; easing.type: {Easing.InOutQuad}}}
-    center: userPosition
-    zoomLevel:15
-
     transitions: Transition {
         NumberAnimation { properties: "zoomLevel"; easing.type: Easing.InOutQuad; duration: 200 }
     }
