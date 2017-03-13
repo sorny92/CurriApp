@@ -16,7 +16,8 @@ Map {
     center: userPosition
     zoomLevel:15
 
-    You {
+    Fisherman {
+        id: user
         position: userPosition
     }
 

@@ -8,6 +8,6 @@
         <file>Drone.qml</file>
         <file>resources/fisherman.png</file>
         <file>resources/boat.png</file>
-        <file>You.qml</file>
+        <file>Fisherman.qml</file>
     </qresource>
 </RCC>

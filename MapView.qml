@@ -2,6 +2,8 @@ import QtQuick 2.7
 import QtQuick.Controls 2.0
 
 Item {
+    property var userPosition: map.userPosition
+    property var droneData: map.droneData
     Map {
         id: map
         anchors.fill: parent
