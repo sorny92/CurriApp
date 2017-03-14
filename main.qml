@@ -11,7 +11,7 @@ ApplicationWindow {
     title: qsTr("Curridrone")
     property string thinkingHead_IP: '192.168.1.34'
     property real ratioVideo: 16/9
-    property var droneData
+    property alias droneData: map.droneData
     header: ToolBar {
         RowLayout {
             anchors.fill: parent
@@ -82,12 +82,14 @@ ApplicationWindow {
                 break
             }
         }
-        onActiveChanged: {
-            console.log(webSocket.active)
-        }
         onTextMessageReceived: {
-            console.log("Received " + message)
-            parseData('TIME|2|3|17|16|6\nGPS|\x01|1|8|50.1000|1.8100\nPOS|3928.5198|N|25.2099|W|48.10\nMOV|0.9350|0.0000|0.0000|\x00\nH|175.219319\r\n')
+            console.log("R: " + message)
+            droneData = JSON.parse(message)
+            pageLocalControl.hdop = droneData.HDOP
+            pageLocalControl.heading = droneData.sensorHeading
+            pageLocalControl.batterylevel = droneData.batterylevel
+            pageLocalControl.speed = droneData.speed
+            pageLocalControl.satellites = droneData.satellites
         }
     }
     RowLayout {
@@ -110,13 +112,14 @@ ApplicationWindow {
             }
             spacing: 3
             LocalControl {
+                id: pageLocalControl
                 Layout.maximumHeight: 1280
                 Layout.minimumHeight: 200
                 Layout.fillHeight: true
                 Layout.fillWidth: true
-                id: pageLocalControl
                 Layout.alignment: Qt.AlignBottom
                 onControlValuesChanged: {
+                    droneData.sensorHeading = direction
                     webSocket.sendTextMessage(createDataMessage(power, direction))
                 }
             }
@@ -133,47 +136,5 @@ ApplicationWindow {
 
     function createDataMessage(power, direction){
         return "p"+ power + ", d" + direction + "\n";
-    }
-
-    function parseData(data) {
-        rows = data.split('\n')
-        for (n in rows){
-            row = rows[n]
-            row = row.split('|')
-            switch (row[0]){
-            case 'TIME':
-                droneData.day 			= row[1]
-                droneData.month 		= row[2]
-                droneData.year 			= row[3]
-                droneData.hour 			= row[4]
-                droneData.minutes 		= row[5]
-                break
-            case 'GPS':
-                droneData.fix 			= row[1]
-                droneData.fixquality 	= row[2]
-                droneData.satellites 	= row[3]
-                droneData.geoidheight 	= row[4]
-                droneData.HDOP 			= row[5]
-                break
-            case 'POS':
-                droneData.latitude 		= row[1]
-                droneData.lat 			= row[2]
-                droneData.longitude 	= row[3]
-                droneData.lon 			= row[4]
-                droneData.altitude 		= row[5]
-                break
-            case 'MOV':
-                droneData.speed 		= row[1]
-                droneData.angle 		= row[2]
-                droneData.magvariation 	= row[3]
-                droneData.mag 			= row[4]
-                break
-            case 'H':
-                droneData.sensorHeading = row[1]
-                break
-            default:
-                console.log(row[0] + 'is undefined')
-            }
-        }
     }
 }

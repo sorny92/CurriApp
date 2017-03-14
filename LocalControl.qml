@@ -9,6 +9,7 @@ Item {
     property string speed: "0"
     property string batterylevel: "100"
     property string satellites: "0"
+    property string hdop: "0"
 
     Slider {
         id: sliderPower
@@ -70,6 +71,11 @@ Item {
         Text {
             id: satelliteText
             text: qsTr("Satellites: ") + satellites
+            font.pixelSize: 12
+        }
+        Text {
+            id: hdopText
+            text: qsTr("HDOP: ") + hdop
             font.pixelSize: 12
         }
     }

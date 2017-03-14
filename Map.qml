@@ -5,11 +5,16 @@ import QtPositioning 5.4
 
 Map {
     property var userPosition
+    property var dronePosition
     property var droneData
 
     function updatePosition() {
         positionSrc.update();
     }
+    function updateDronePosition() {
+
+    }
+
     id: map
     plugin: myPlugin
     anchors.fill: parent
@@ -22,8 +27,8 @@ Map {
     }
 
     Drone {
-        position: droneData.position
-        heading: droneData.heading
+        position: QtPositioning.coordinate(39.20, -0.1)
+        heading: droneData.sensorHeading
         state: droneData.armed
     }
 

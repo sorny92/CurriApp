@@ -3,7 +3,7 @@ import QtQuick.Controls 2.0
 
 Item {
     property var userPosition: map.userPosition
-    property var droneData: map.droneData
+    property alias droneData: map.droneData
     Map {
         id: map
         anchors.fill: parent
@@ -20,7 +20,7 @@ Item {
         anchors.top: map.top
         text: qsTr("You")
         onClicked: {
-            map.updatePosition();
+            map.updateUserPosition();
             console.log(map.userPosition);
         }
     }
@@ -33,8 +33,9 @@ Item {
         anchors.top: map.top
         text: qsTr("Drone")
         onClicked: {
-            map.updateBoatPosition();
-            console.log(map.boatPosition);
+            //map.updateBoatPosition();
+            console.log(map.droneData);
+            console.log(droneData)
         }
     }
 }
