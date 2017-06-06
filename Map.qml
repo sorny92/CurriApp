@@ -7,6 +7,7 @@ Map {
     property var userPosition
     property var dronePosition
     property var droneData
+    property alias listRoute: listDestinationPosition
 
     function updatePosition() {
         positionSrc.update();
@@ -27,9 +28,30 @@ Map {
     }
 
     Drone {
-        position: QtPositioning.coordinate(39.20, -0.1)
+        id: drone
+        position: QtPositioning.coordinate(droneData.coordinates[0], droneData.coordinates[1])
         heading: droneData.sensorHeading
         state: droneData.armed
+        onPositionChanged: {
+            dronePosition = drone.position
+            if(drone.position.latitude === 0 || drone.position.longitude === 0) {
+                drone.position = userPosition
+            }
+        }
+    }
+    ListModel {
+        id: listDestinationPosition
+        ListElement {number: 1; latitude: 39.460555; longitude: -0.372524}
+        ListElement {number: 2; latitude: 39.460555; longitude: -0.372526}
+
+    }
+
+    MapItemView {
+        model: listDestinationPosition
+        delegate: DestinationMark {
+            position: QtPositioning.coordinate(latitude, longitude)
+            number: number
+        }
     }
 
     PositionSource{

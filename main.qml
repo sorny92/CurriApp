@@ -9,7 +9,7 @@ ApplicationWindow {
     width: 1280
     height: 720
     title: qsTr("Curridrone")
-    property string thinkingHead_IP: '192.168.1.34'
+    property string thinkingHead_IP: '192.168.1.35'
     property real ratioVideo: 16/9
     property alias droneData: map.droneData
     header: ToolBar {
@@ -31,11 +31,18 @@ ApplicationWindow {
                 text: qsTr("Video Off")
                 Layout.alignment: Qt.AlignTop
                 onCheckedChanged: {
-                    if(videoSwitch.checked){
-                        videoSwitch.text = qsTr("Connecting")
-                    } else {
-                        videoSwitch.text = qsTr("Video Off")
+                    if(webSocketSwitch.checked) {
+                        if(videoSwitch.checked){
+                            webSocket.sendTextMessage("VIDEO_ON")
+                            videoSwitch.text = qsTr("Connecting")
+                        } else {
+                            webSocket.sendTextMessage("VIDEO_OFF")
+                            videoSwitch.text = qsTr("Video Off")
 
+                        }
+                    }else {
+                        videoSwitch.text = qsTr("WebSocket should be On")
+                        videoSwitch.checked = false
                     }
                 }
             }
@@ -119,7 +126,7 @@ ApplicationWindow {
                 Layout.fillWidth: true
                 Layout.alignment: Qt.AlignBottom
                 onControlValuesChanged: {
-                    droneData.sensorHeading = direction
+                    map.droneData.sensorHeading = direction
                     webSocket.sendTextMessage(createDataMessage(power, direction))
                 }
             }

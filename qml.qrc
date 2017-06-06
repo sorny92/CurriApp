@@ -9,5 +9,6 @@
         <file>resources/fisherman.png</file>
         <file>resources/boat.png</file>
         <file>Fisherman.qml</file>
+        <file>DestinationMark.qml</file>
     </qresource>
 </RCC>
