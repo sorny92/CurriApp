@@ -8,8 +8,8 @@ Item {
     property alias droneData: map.droneData
     property var destination_point_coor
 
-    function getCoordinatesFromMapScene(map, x, y) {
-        return map.toCoordinate(Qt.point(x - map.x, y - map.y), false)
+    function getCoordinatesFromMapScene(mv, x, y) {
+        return map.toCoordinate(Qt.point(x - mv.x, y - mv.y), false)
     }
 
     Map {
@@ -28,9 +28,7 @@ Item {
                     console.log(mapView.y)
                     console.log(destination_point_coor.latitude)
                     console.log(destination_point_coor.longitude)
-                    var number = map.listRoute.count + 1
-                    map.listRoute.append({"number":number,
-                                          "latitude":destination_point_coor.latitude,
+                    map.listRoute.append({"latitude":destination_point_coor.latitude,
                                           "longitude":destination_point_coor.longitude,})
                 }
             }

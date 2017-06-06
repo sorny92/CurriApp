@@ -41,8 +41,8 @@ Map {
     }
     ListModel {
         id: listDestinationPosition
-        ListElement {number: 1; latitude: 39.460555; longitude: -0.372524}
-        ListElement {number: 2; latitude: 39.460555; longitude: -0.372526}
+        ListElement {latitude: 39.460555; longitude: -0.372524}
+        ListElement {latitude: 39.460555; longitude: -0.372526}
 
     }
 
