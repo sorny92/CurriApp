@@ -41,8 +41,8 @@ Map {
     }
     ListModel {
         id: listDestinationPosition
-        ListElement {latitude: 39.460555; longitude: -0.372524}
-        ListElement {latitude: 39.460555; longitude: -0.372526}
+        ListElement {num: 1; latitude: 39.460555; longitude: -0.372524}
+        ListElement {num: 2; latitude: 39.460995; longitude: -0.372526}
 
     }
 
@@ -50,7 +50,7 @@ Map {
         model: listDestinationPosition
         delegate: DestinationMark {
             position: QtPositioning.coordinate(latitude, longitude)
-            number: number
+            number: num
         }
     }
 

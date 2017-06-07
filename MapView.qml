@@ -28,8 +28,12 @@ Item {
                     console.log(mapView.y)
                     console.log(destination_point_coor.latitude)
                     console.log(destination_point_coor.longitude)
-                    map.listRoute.append({"latitude":destination_point_coor.latitude,
-                                          "longitude":destination_point_coor.longitude,})
+
+                    var num = map.listRoute.count + 1
+                    console.log(num)
+                    map.listRoute.append({"num": num,
+                                          "latitude":destination_point_coor.latitude,
+                                          "longitude":destination_point_coor.longitude})
                 }
             }
         }
