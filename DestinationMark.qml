@@ -2,9 +2,12 @@ import QtQuick 2.0
 import QtLocation 5.8
 
 MapQuickItem {
-
+    signal press()
+    signal longPress()
     property alias position: mqi.coordinate
     property alias number: text_number.text
+    property alias color: circle.color
+    property bool editMode: false
 
     id:mqi
     anchorPoint.y: circle.height/2
@@ -31,14 +34,18 @@ MapQuickItem {
         MouseArea {
             anchors.fill: parent
             onPressed: {
-                circle.parent.width *= 1.4
-                circle.radius *= 1.4
+                mqi.press()
+                circle.parent.width *= 2
+                circle.radius *= 2
             }
             onReleased: {
-                circle.parent.width /= 1.4
-                circle.radius /= 1.4
+                circle.parent.width /= 2
+                circle.radius /= 2
             }
-            onPressAndHold: circle.color = 'red'
+            onPressAndHold: mqi.longPress()
         }
+    }
+    onEditModeChanged: {
+        editMode?circle.color="red":circle.color='blue'
     }
 }

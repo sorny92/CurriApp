@@ -12,47 +12,7 @@ ApplicationWindow {
     property string thinkingHead_IP: '192.168.1.35'
     property real ratioVideo: 16/9
     property alias droneData: map.droneData
-    header: ToolBar {
-        RowLayout {
-            anchors.fill: parent
-            Switch {
-                id: webSocketSwitch
-                text: qsTr("WebSocket Off")
-                Layout.alignment: Qt.AlignTop
-                onCheckedChanged: {
-                    if(webSocketSwitch.checked)
-                        webSocket.active = true
-                    else
-                        webSocket.active = false
-                }
-            }
-            Switch {
-                id: videoSwitch
-                text: qsTr("Video Off")
-                Layout.alignment: Qt.AlignTop
-                onCheckedChanged: {
-                    if(webSocketSwitch.checked) {
-                        if(videoSwitch.checked){
-                            webSocket.sendTextMessage("VIDEO_ON")
-                            videoSwitch.text = qsTr("Connecting")
-                        } else {
-                            webSocket.sendTextMessage("VIDEO_OFF")
-                            videoSwitch.text = qsTr("Video Off")
 
-                        }
-                    }else {
-                        videoSwitch.text = qsTr("WebSocket should be On")
-                        videoSwitch.checked = false
-                    }
-                }
-            }
-            ToolButton {
-                text: qsTr("⋮")
-                onClicked: menu.open()
-                anchors.right: parent.right
-            }
-        }
-    }
     Timer {
         id: timer
         repeat: true
@@ -101,36 +61,66 @@ ApplicationWindow {
     }
     RowLayout {
         anchors.fill: parent
-        ColumnLayout {
+        Item {
             height: parent.height
-            Layout.fillHeight: true
             Layout.fillWidth: false
+            Layout.fillHeight: true
             implicitWidth: parent.width/2
-            Layout.maximumWidth: 900
-            Layout.minimumWidth: 200
+            Item {
+                id: item1
+                width: parent.width
+                anchors.top: parent.top
+                z:3
+                Switch {
+                    id: webSocketSwitch
+                    text: qsTr("WebSocket Off")
+                    anchors.left: parent.left
+                    width: parent.width/2
+
+                    onCheckedChanged: {
+                        if(webSocketSwitch.checked)
+                            webSocket.active = true
+                        else
+                            webSocket.active = false
+                    }
+                }
+                Switch {
+                    id: videoSwitch
+                    text: qsTr("Video Off")
+                    anchors.left: webSocketSwitch.right
+                    onCheckedChanged: {
+                        if(webSocketSwitch.checked) {
+                            if(videoSwitch.checked){
+                                webSocket.sendTextMessage("VIDEO_ON")
+                                videoSwitch.text = qsTr("Connecting")
+                            } else {
+                                webSocket.sendTextMessage("VIDEO_OFF")
+                                videoSwitch.text = qsTr("Video Off")
+                            }
+                        }else {
+                            videoSwitch.text = qsTr("WebSocket should be On")
+                            videoSwitch.checked = false
+                        }
+                    }
+                }
+            }
             VideoStreamView {
                 id: videoStream
                 ip: thinkingHead_IP
-                implicitWidth: parent.width
-                implicitHeight: implicitWidth/ratioVideo
-                Layout.maximumHeight: 500
-                Layout.fillWidth: true
-                Layout.fillHeight: false
+                width: parent.width
+                height: width/ratioVideo
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.horizontalCenter: parent.horizontalCenter
             }
-            spacing: 3
             LocalControl {
                 id: pageLocalControl
-                Layout.maximumHeight: 1280
-                Layout.minimumHeight: 200
-                Layout.fillHeight: true
-                Layout.fillWidth: true
-                Layout.alignment: Qt.AlignBottom
+                anchors.fill: parent
+                z: 2
                 onControlValuesChanged: {
                     map.droneData.sensorHeading = direction
                     webSocket.sendTextMessage(createDataMessage(power, direction))
                 }
             }
-
         }
         spacing: 10
         MapView {

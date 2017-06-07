@@ -24,16 +24,12 @@ Item {
             onReleased: {
                 var destination_point_coor_actual = getCoordinatesFromMapScene(mapView, touchPoints[0].sceneX, touchPoints[0].sceneY)
                 if (destination_point_coor === destination_point_coor_actual){
-                    console.log(mapView.x)
-                    console.log(mapView.y)
-                    console.log(destination_point_coor.latitude)
-                    console.log(destination_point_coor.longitude)
-
                     var num = map.listRoute.count + 1
-                    console.log(num)
-                    map.listRoute.append({"num": num,
-                                          "latitude":destination_point_coor.latitude,
-                                          "longitude":destination_point_coor.longitude})
+                    map.listRoute.append({
+                      "num": num,
+                      "latitude":destination_point_coor.latitude,
+                      "longitude":destination_point_coor.longitude
+                    })
                 }
             }
         }
