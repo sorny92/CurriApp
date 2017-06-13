@@ -9,7 +9,7 @@ ApplicationWindow {
     width: 1280
     height: 720
     title: qsTr("Curridrone")
-    property string thinkingHead_IP: '192.168.1.35'
+    property alias thinkingHead_IP: ipTextField.text
     property real ratioVideo: 16/9
     property alias droneData: map.droneData
 
@@ -102,6 +102,14 @@ ApplicationWindow {
                             videoSwitch.checked = false
                         }
                     }
+                }
+                TextField {
+                    id: ipTextField
+                    anchors.left: parent.left
+                    anchors.top: webSocketSwitch.bottom
+                    placeholderText: qsTr("Device IP")
+                    validator: RegExpValidator{regExp: /[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/}
+                    text: '192.168.1.35'
                 }
             }
             VideoStreamView {
