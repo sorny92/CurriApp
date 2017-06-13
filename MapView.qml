@@ -56,7 +56,33 @@ Item {
         anchors.top: map.top
         text: qsTr("Drone")
         onClicked: {
-            map.center = map.dronePosition
+            map.center = droneData.position
+        }
+    }
+    Button {
+        id: centerRouteButton
+        anchors.topMargin: 10
+        anchors.rightMargin: 10
+        anchors.right: map.right
+        anchors.top: centerDronButton.bottom
+        text: qsTr("Show route")
+        onClicked: {
+            if(map.listRoute.count == 0){
+                console.log("No points in Route")
+            } else {
+                map.fitViewportToVisibleMapItems()
+            }
+        }
+    }
+    Button {
+        id: clearCacheButton
+        anchors.topMargin: 10
+        anchors.leftMargin: 10
+        anchors.left: centerYouButton.right
+        anchors.top: map.top
+        text: qsTr("Clear cache")
+        onClicked: {
+            map.clearData()
         }
     }
 }
